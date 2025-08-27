@@ -7,27 +7,17 @@ function App() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    const memberList = [
-      {
-        firstName: "Heidi",
-        lastName: "Astrup",
-        mail: "Heid@eaaa.dk",
-      },
-      {
-        firstName: "Annika",
-        lastName: "Laursen",
-        mail: "Anni@eaaa.dk",
-      },
-      {
-        firstName: "Peder",
-        lastName: "Madsen",
-        mail: "Pede@eaaa.dk",
-      },
-    ];
-  }, []);
+    async function getMembers() {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/cederdorff/dat-js/main/data/members.json"
+      );
+      const data = await response.json();
+      setMembers(data); // save data in the 'members' state
+    }
 
-  setMembers(memberList);
-  console.log(memberList);
+    // Call the 'getMembers' function only once when the component mounts (empty dependency array)
+    getMembers();
+  }, []);
 
   return (
     <>
